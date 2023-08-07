@@ -120,7 +120,7 @@ print("Table created successfully")
 conn.close()
 
 # Create an engine with sqlalchemy
-engine = create_engine('postgresql+psycopg2://tharinduabeysinghe:12345@localhost/stocks')
+engine = create_engine('postgresql+psycopg2://tharinduabeysinghe:#####@localhost/stocks')
 df.to_sql('dividend_stocks_data', engine, if_exists='append', index=False)
 
 
