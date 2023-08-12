@@ -109,10 +109,10 @@ cur.execute('''CREATE TABLE dividends_stocks
                 date_imported VARCHAR(255),
                 ticker VARCHAR(255),
                 sector VARCHAR(255),
-                market_cap VARCHAR(255),
+                market_cap BIGINT,
                 last_dividend_value FLOAT,
                 last_dividend_date VARCHAR(255),
-                five_year_avg_div_yield VARCHAR(255),
+                five_year_avg_div_yield FLOAT,
                 current_price FLOAT,
                 trailing_pe FLOAT,
                 forward_pe FLOAT,
@@ -126,7 +126,7 @@ cur.execute('''CREATE TABLE dividends_stocks
                 reccommendation_mean FLOAT,
                 years_traded INT,
                 market_cap_numerized VARCHAR(255)
-                );''')              
+                );''')             
 print("Table created successfully")
 conn.close()
 
