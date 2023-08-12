@@ -10,64 +10,76 @@ from sqlalchemy import create_engine
 
 # Define functions
 # Years traded
-def years_traded(ticker_name):
-    first_trade_date = ticker.info['firstTradeDateEpochUtc']
+def years_traded(first_trade_date):
     first_day = datetime.fromtimestamp(first_trade_date)
     first_day = first_day.date()
     years_traded = relativedelta(date.today(), first_day).years
     return years_traded
 
 # Market cap
-def Market_cap_numerized(ticker_name):
-    ticker = yf.Ticker(ticker_name)
-    market_cap = ticker.info['marketCap']
+def Market_cap_numerized(market_cap):
     market_cap = numerize.numerize(market_cap)
     return market_cap
 
 # Ex dividend date
-def Last_dividend_date(ticker_name):
-    ticker = yf.Ticker(ticker_name)
-    dividend_date = ticker.info['exDividendDate']
+def Last_dividend_date(dividend_date):
     ex_dividend_date = datetime.fromtimestamp(dividend_date).date()
     return ex_dividend_date
 
 # Tickers list
-ticker_list = ['AAPL', 'MSFT', 'SPG', 'PEP', 'F', 'SHW', 'T']
+tickers = ['AAPL', 'MSFT', 'SPG', 'PEP', 'F', 'SHW', 'T']
 
-# Import data using API
-stock_dicts_list = []
-    
-for ticker_name in ticker_list:
+# Import data using yfinances API into a dataframe
+ticker_data = []
+for ticker_name in tickers:
     ticker = yf.Ticker(ticker_name)
     ticker_info = ticker.info
-    
-    stock_dict = {'ticker': ticker_name,
-              'sector': ticker_info['sector'] if 'sector' in ticker_info else None,
-              'age': years_traded(ticker_name) if 'firstTradeDateEpochUtc' in ticker_info else None,
-              'market_cap': Market_cap_numerized(ticker_name) if 'marketCap' in ticker_info else None,
-              'last_dividend_value': ticker_info['lastDividendValue'] if 'lastDividendValue' in ticker_info else None,
-              'last_dividend_date': Last_dividend_date(ticker_name) if 'exDividendDate' in ticker_info else None,
-              'five_year_avg_div_yield': ticker_info['fiveYearAvgDividendYield'] if 'fiveYearAvgDividendYield' in ticker_info else None,
-              'current_price': ticker_info['currentPrice'] if 'currentPrice' in ticker_info else None,
-              'trailing_pe': ticker_info['trailingPE'] if 'trailingPE' in ticker_info else None,
-              'forward_pe': ticker_info['forwardPE'] if 'forwardPE' in ticker_info else None,
-              'fifty_two_week_change': ticker_info['52WeekChange'] if '52WeekChange' in ticker_info else None,
-              'payout_ratio': ticker_info['payoutRatio'] if 'payoutRatio' in ticker_info else None,
-              'debt_to_equity_ratio': ticker_info['debtToEquity'] if 'debtToEquity' in ticker_info else None,
-              'earnings_quarterly_growth': ticker_info['earningsQuarterlyGrowth'] if 'earningsQuarterlyGrowth' in ticker_info else None,
-              'book_value': ticker_info['bookValue'] if 'bookValue' in ticker_info else None,
-              'beta': ticker_info['beta'] if 'beta' in ticker_info else None,
-              'recommendation_key': ticker_info['recommendationKey'] if 'recommendationKey' in ticker_info else None,
-              'reccommendation_mean': ticker_info['recommendationMean'] if 'recommendationMean' in ticker_info else None
-                     }
-    
-    stock_dicts_list.append(stock_dict)
-print(stock_dicts_list)
+    df_norm = pd.json_normalize(ticker_info)
+    df_norm.insert(0, "ticker", ticker_name, True)
+    ticker_data.append(df_norm)
 
-# Insert stock data into a pandas dataframe and add imported date into a new column
-stock_data = pd.DataFrame.from_records(stock_dicts_list)
-stock_data['date_imported']= datetime.today().strftime('%Y-%m-%d')
-stock_data = stock_data[['date_imported'] + [col for col in stock_data.columns if col != 'date_imported']]
+tickers_data_df = pd.concat(ticker_data, axis=0)
+tickers_data_df
+
+# Filter necessary data into a new dataframe
+columns = ['ticker', 'sector', 'firstTradeDateEpochUtc', 'marketCap', 'lastDividendValue', 
+           'exDividendDate', 'fiveYearAvgDividendYield', 'currentPrice', 'trailingPE', 
+           'forwardPE', '52WeekChange', 'payoutRatio', 'debtToEquity', 'earningsQuarterlyGrowth', 
+           'bookValue', 'beta', 'recommendationKey', 'recommendationMean'
+          ]
+tickers_dividends_data = tickers_data_df[columns]
+
+# Transform imported data
+tickers_dividends_data["exDividendDate"] = tickers_dividends_data["exDividendDate"].apply(Last_dividend_date)
+tickers_dividends_data["years_traded"] = tickers_dividends_data["firstTradeDateEpochUtc"].apply(years_traded)
+tickers_dividends_data["market_cap_Numerized"] = tickers_dividends_data["marketCap"].apply(Market_cap_numerized)
+tickers_dividends_data['date_imported']= datetime.today().strftime('%Y-%m-%d')
+tickers_dividends_data = tickers_dividends_data[['date_imported'] + [col for col in tickers_dividends_data.columns if col != 'date_imported']]
+
+# Drop extra column
+tickers_dividends_data.drop("firstTradeDateEpochUtc", axis = 1, inplace = True)
+
+# Rename columns
+# Rename columns
+column_names = {                   
+'marketCap' :  'market_cap',         
+'lastDividendValue' : 'last_dividend_value',        
+'exDividendDate' : 'last_dividend_date',           
+'fiveYearAvgDividendYield' : 'five_year_avg_div_yield',
+'currentPrice' : 'current_price',
+'trailingPE' : 'trailing_pe',
+'forwardPE' : 'forward_pe',
+'52WeekChange' : 'fifty_two_week_change',
+'payoutRatio' : 'payout_ratio',
+'debtToEquity' : 'debt_to_equity_ratio',
+'earningsQuarterlyGrowth' : 'earnings_quarterly_growth',
+'bookValue' : 'book_value',
+'recommendationKey' : 'recommendation_key',
+'recommendationMean' : 'reccommendation_mean',
+'market_cap_Numerized' : 'market_cap_numerized'
+}
+
+tickers_dividends_data.rename(columns=column_names, inplace=True)
 
 #### INSERT TO PostgreSQL database ######
 
@@ -86,42 +98,41 @@ cursor.execute(sql)
 print("Database created successfully!")
 conn.close()
 
-# Create dividends_stocks_data in the stocks database
+# Create dividends_stocks table in the stocks database
 conn = psycopg2.connect(
     database="stocks", user= username, password= password, host='127.0.0.1', port= '5432'
 )
 conn.autocommit = True
 cur = conn.cursor()
-cur.execute('''CREATE TABLE dividend_stocks_data
+cur.execute('''CREATE TABLE dividends_stocks
                (
-                Date_imported VARCHAR(255),
-                Ticker VARCHAR(255),
-                Sector VARCHAR(255),
-                Age INT,
-                Market_cap VARCHAR(255),
-                Last_dividend_value FLOAT,
-                Last_Dividend_Date VARCHAR(255),
-                Five_year_avg_div_yield VARCHAR(255),
-                Current_Price FLOAT,
-                trailing_PE FLOAT,
-                Forward_PE FLOAT,
-                Fifty_two_Week_Change FLOAT,
-                Payout_Ratio FLOAT,
-                Debt_to_Equity_Ratio FLOAT,
-                Earnings_Quarterly_Growth FLOAT,
-                Book_Value FLOAT,
-                Beta FLOAT,
-                Recommendation_Key VARCHAR(255),
-                Reccommendation_Mean FLOAT
-
-                );''')
-               
+                date_imported VARCHAR(255),
+                ticker VARCHAR(255),
+                sector VARCHAR(255),
+                market_cap VARCHAR(255),
+                last_dividend_value FLOAT,
+                last_dividend_date VARCHAR(255),
+                five_year_avg_div_yield VARCHAR(255),
+                current_price FLOAT,
+                trailing_pe FLOAT,
+                forward_pe FLOAT,
+                fifty_two_week_change FLOAT,
+                payout_ratio FLOAT,
+                debt_to_equity_ratio FLOAT,
+                earnings_quarterly_growth FLOAT,
+                book_value FLOAT,
+                beta FLOAT,
+                recommendation_key VARCHAR(255),
+                reccommendation_mean FLOAT,
+                years_traded INT,
+                market_cap_numerized VARCHAR(255)
+                );''')              
 print("Table created successfully")
 conn.close()
 
-# Create an engine with sqlalchemy
+# Create an engine and load the data from database to postgresql database
 engine = create_engine('postgresql+psycopg2://tharinduabeysinghe:#####@localhost/stocks')
-df.to_sql('dividend_stocks_data', engine, if_exists='append', index=False)
+tickers_dividends_data.to_sql('dividends_stocks', engine, if_exists='append', index=False)
 
 
 
