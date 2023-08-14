@@ -67,5 +67,5 @@ cur.execute('''CREATE TABLE stock_prices
 conn.close()
 
 # Create an engine and load the data from the dataframe to postgresql database
-engine = create_engine('postgresql+psycopg2://tharinduabeysinghe:12345@localhost/stocks')
+engine = create_engine('postgresql+psycopg2://tharinduabeysinghe:#####@localhost/stocks')
 stock_data.to_sql('stock_prices', engine, if_exists='append', index=False)
