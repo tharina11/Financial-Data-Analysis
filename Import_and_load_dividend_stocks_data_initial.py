@@ -60,7 +60,6 @@ tickers_dividends_data = tickers_dividends_data[['date_imported'] + [col for col
 tickers_dividends_data.drop("firstTradeDateEpochUtc", axis = 1, inplace = True)
 
 # Rename columns
-# Rename columns
 column_names = {                   
 'marketCap' :  'market_cap',         
 'lastDividendValue' : 'last_dividend_value',        
@@ -81,7 +80,7 @@ column_names = {
 
 tickers_dividends_data.rename(columns=column_names, inplace=True)
 
-#### INSERT TO PostgreSQL database ######
+#### Insert to PostgreSQL database ######
 
 # Define username and password of the Posgresql database (use your password)
 username = 'tharinduabeysinghe'
@@ -129,7 +128,7 @@ cur.execute('''CREATE TABLE dividends_stocks
                 );''')             
 conn.close()
 
-# Create an engine and load the data from database to postgresql database
+# Create an engine and load the data from the dataframe to postgresql database
 engine = create_engine('postgresql+psycopg2://tharinduabeysinghe:#####@localhost/stocks')
 tickers_dividends_data.to_sql('dividends_stocks', engine, if_exists='append', index=False)
 
