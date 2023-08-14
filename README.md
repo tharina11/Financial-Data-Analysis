@@ -1,2 +1,11 @@
 # Financial-Data-Analysis
-Import stocks data from Yahoo Finances website using a Python API. Data related to dividends yield of each stock is imported with the date and loaded into a PostgreSQL table. This data will be used to analyze stock and find best investment opportunities. The code is written only for educational purposes.
+This project imports stock data from the Yahoo Finances website. This data will be analyzed to find investment opportunities. The code is written only for educational purposes. 
+
+Data for each stock is imported using a Python API and loaded to PostgreSQL tables. Python and SQL scripts are used in the codebase. Commonly used Python libraries are listed below.
+
+- yfinances
+- pandas
+- numpy
+- datetime
+- psycopg2
+- sqlalchemy
