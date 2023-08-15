@@ -1,8 +1,8 @@
-# Import libraries
+#Import libraries
 import pandas as pd
+import datetime
 from datetime import date
 from datetime import timedelta
-from datetime import datetime
 from sklearn import linear_model
 from sqlalchemy import create_engine
 
@@ -75,3 +75,4 @@ gradient_last_five_days = slope[0][0]
 today_high_prediction_year_adjusted = last_year_today_high * year_to_year_ratio 
 gradient_delta = today_high_prediction_year_adjusted * gradient_last_five_days
 today_high_prediction_slope_adjusted = today_high_prediction_year_adjusted + gradient_delta
+print(today_high_prediction_slope_adjusted)
