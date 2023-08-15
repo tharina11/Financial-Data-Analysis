@@ -1,12 +1,9 @@
 # Import libraries
-import yfinance as yf
-import numpy as np
 import pandas as pd
 from datetime import date
 from datetime import timedelta
 from datetime import datetime
 from sklearn import linear_model
-import psycopg2
 from sqlalchemy import create_engine
 
 # Read date and daily high values to a dataframe
