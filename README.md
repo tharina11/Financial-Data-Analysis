@@ -20,7 +20,7 @@ Imports prices data from Yahoo Finances website for a single stock and loads int
 
 Updates stock prices table in the database. Imports and inserts only the data from the last date that data available in the stock prices table.
 
-3.import_and_load_dividend_stocks_data_initial.py
+3. import_and_load_dividend_stocks_data_initial.py
 
 Imports data related to dividend return of multiple stocks from Yahoo Finances website and loads into a PostgreSQL database.
 
