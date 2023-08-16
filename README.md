@@ -9,3 +9,18 @@ Data for each stock is imported using a Python API and loaded to PostgreSQL tabl
 - datetime
 - psycopg2
 - sqlalchemy
+
+Specific tasks of each file are described below.
+
+1. import_and_load_single_stock_data_initial.py
+
+Imports prices data from Yahoo Finances website for a single stock and loads into a PostgreSQL database.
+
+2.import_and_load_dividend_stocks_data_initial.py
+
+Imports data related to dividend return of multiple stocks from Yahoo Finances website and loads into a PostgreSQL database.
+
+3. predict_single_stock_high_price.py
+
+Predicts the highest price of a single stock for the next day for a certain stock.
+
