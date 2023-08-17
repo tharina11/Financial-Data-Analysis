@@ -34,6 +34,10 @@ split_percent=0.8
 n = len(data)
 split = int(n*split_percent)
 
+# Split data to train and test sets
+train_data = data[range(split)]
+test_data = data[split:]
+
 # Prepare the input X and target Y (Non overlapping Xs)
 def get_XY(dat, time_steps):
     # Indices of target array
