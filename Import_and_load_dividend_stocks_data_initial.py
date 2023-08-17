@@ -94,7 +94,6 @@ conn.autocommit = True
 cursor = conn.cursor()
 sql = '''CREATE DATABASE stocks''';
 cursor.execute(sql)
-print("Database created successfully!")
 conn.close()
 
 # Create dividends_stocks table in the stocks database
