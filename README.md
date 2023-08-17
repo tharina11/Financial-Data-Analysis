@@ -1,7 +1,7 @@
-# Financial-Data-Analysis
-This project imports stock data from the Yahoo Finances website. This data will be analyzed to find investment opportunities. The code is written only for educational purposes. 
+# Stock Data Analysis and Prediction
+This project imports stock data from the Yahoo Finances website. The data will be analyzed to find optimum investment opportunities. The codes are written only for educational purposes. 
 
-Data for each stock is imported using a Python API and loaded to PostgreSQL tables. Python and SQL scripts are used in the codebase. Commonly used Python libraries are listed below.
+Data for each stock is imported using a Python API and loaded to PostgreSQL tables. Python and SQL scripts are used in the codebase. Python libraries used in the project are listed below.
 
 - yfinances
 - pandas
@@ -9,6 +9,8 @@ Data for each stock is imported using a Python API and loaded to PostgreSQL tabl
 - datetime
 - psycopg2
 - sqlalchemy
+- scikit-learn
+- keras
 
 Specific tasks of each file are described below.
 
@@ -28,7 +30,7 @@ Imports data related to dividend return of multiple stocks from Yahoo Finances w
 
 Predicts the highest price of a single stock for the next day. Predicts using the seasonality and trend identifiend based on past high data of the same stock.
 
-5. RNN_predict_single_high_price
+5. RNN_predict_single_high_price.py
 
 Predicts the highest price of a single stock for the next day. Predicts based on highest prices of the same stock in the last five days using a Recurrent Neural Network.
 
