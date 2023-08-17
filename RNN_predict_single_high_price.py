@@ -1,16 +1,12 @@
 #Import libraries
 import numpy as np
 import pandas as pd
-import datetime
-from datetime import date
-from datetime import timedelta
 from sqlalchemy import create_engine
 from keras.models import Sequential
 from keras.layers import Dense, SimpleRNN
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 import math
-import matplotlib.pyplot as plt
 
 # Read date and daily high values to a dataframe
 engine = create_engine('postgresql+psycopg2://tharinduabeysinghe:#####@localhost/stocks')
