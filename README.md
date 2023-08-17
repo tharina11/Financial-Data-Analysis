@@ -26,8 +26,11 @@ Imports data related to dividend return of multiple stocks from Yahoo Finances w
 
 4. predict_single_stock_high_price.py
 
-Predicts the highest price of a single stock for the next day for a certain stock.
+Predicts the highest price of a single stock for the next day. Predicts using the seasonality and trend identifiend based on past high data of the same stock.
 
+5. RNN_predict_single_high_price
+
+Predicts the highest price of a single stock for the next day. Predicts based on highest prices of the same stock in the last five days using a Recurrent Neural Network.
 
 
 
