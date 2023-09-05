@@ -27,7 +27,9 @@ def Last_dividend_date(dividend_date):
     return ex_dividend_date
 
 # Tickers list
-tickers = ['AAPL', 'MSFT', 'SPG', 'PEP', 'F', 'SHW', 'T']
+tickers = ['AAPL', 'MSFT', 'SPG', 'PEP', 'F', 'SHW', 'T', 'ORCL', 'V', 'BAC', 'UNH', 'MRK', 'MCD', 'HD', 
+           'JNJ', 'KO', 'JPM', 'AXP', 'SBUX', 'CSCO', 'HPQ', 'MS', 'GS', 'CVS', 'C', 'PFE', 'XOM', 'TGT',
+           'WFC', 'CVX', 'PG', 'PRU', 'VZ', 'MMM', 'IBM', 'WBA', 'ABBV' ]
 
 # Import data using yfinances API into a dataframe
 ticker_data = []
