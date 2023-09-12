@@ -1,0 +1,7 @@
+"TODO - Add stock names and job configurations "
+
+{
+    "dividends_stocks_": ["AAPL", "JNJ", "JPM"]
+    "Job1": "initial",
+    "job2": "incremental"
+}
