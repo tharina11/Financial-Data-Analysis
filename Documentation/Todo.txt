@@ -1,3 +1,5 @@
 1. Import all data of selected dividends stocks to a new table
 2. Time series analysis of multiple stocks
 3. Build a LSTM on one or more stocks data
+4. Explore how stationarity of data help with predictions
+5. Explore portfolio optimization methods
