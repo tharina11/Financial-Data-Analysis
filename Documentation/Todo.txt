@@ -3,3 +3,4 @@
 3. Build a LSTM on one or more stocks data
 4. Explore how stationarity of data help with predictions
 5. Explore portfolio optimization methods
+6. Save parameters of neural network and RMSE in a separate file for the ease of comparison 
